@@ -40,16 +40,18 @@ export default function MusicToggle({ src }) {
   return (
     <>
       {src ? <audio ref={audioRef} src={src} loop preload="none" /> : null}
-      <motion.button
-        className="music-toggle"
-        onClick={toggle}
-        aria-label={playing ? "Pause music" : "Play music"}
-        animate={playing ? { scale: [1, 1.08, 1] } : { scale: 1 }}
-        transition={playing ? { repeat: Infinity, duration: 1.4 } : { duration: 0.2 }}
-        whileTap={{ scale: 0.92 }}
-      >
-        {playing ? "♪" : "♫"}
-      </motion.button>
+      <div className="music-toggle">
+        <motion.button
+          className="music-toggle__btn"
+          onClick={toggle}
+          aria-label={playing ? "Pause music" : "Play music"}
+          animate={playing ? { scale: [1, 1.08, 1] } : { scale: 1 }}
+          transition={playing ? { repeat: Infinity, duration: 1.4 } : { duration: 0.2 }}
+          whileTap={{ scale: 0.92 }}
+        >
+          {playing ? "♪" : "♫"}
+        </motion.button>
+      </div>
     </>
   );
 }

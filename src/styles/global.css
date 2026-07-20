@@ -915,11 +915,15 @@ button {
 
 .music-toggle {
   position: fixed;
-  right: 20px;
-  bottom: 20px;
+  right: max(20px, env(safe-area-inset-right));
+  bottom: max(20px, env(safe-area-inset-bottom));
   z-index: 60;
   width: 52px;
   height: 52px;
+}
+.music-toggle__btn {
+  width: 100%;
+  height: 100%;
   border-radius: 50%;
   border: 1.5px solid var(--gold);
   background: var(--ivory);

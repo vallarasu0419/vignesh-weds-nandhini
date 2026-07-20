@@ -51,6 +51,12 @@ src/
 
 ## Notes
 - Built with React 18, Vite, Framer Motion, PropTypes.
-- RSVP + Guest Wishes are front-end only; connect them to a backend
-  (Firebase, Google Forms, etc.) to store responses.
+- RSVP is front-end only; connect it to a backend (Firebase, Google Forms,
+  etc.) to store responses.
+- Guest Wishes is backed by a shared Upstash Redis store via the `/api/wishes`
+  serverless functions in `api/`. Locally it uses `server/index.js` instead
+  (`npm run server`, proxied by Vite). On Vercel, add the Upstash Redis
+  integration (Storage → Marketplace) to your project so the
+  `UPSTASH_REDIS_REST_URL` / `UPSTASH_REDIS_REST_TOKEN` env vars are set, then
+  redeploy.
 - Respects `prefers-reduced-motion` and is responsive down to mobile.
