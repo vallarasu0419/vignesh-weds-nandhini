@@ -1,7 +1,20 @@
 import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
+import {
+  addDoc,
+  collection,
+  deleteDoc,
+  doc,
+  onSnapshot,
+  orderBy,
+  query,
+  serverTimestamp,
+} from "firebase/firestore";
+import { db } from "../../firebase.js";
 import SectionTitle from "../common/SectionTitle.jsx";
 import Button from "../common/Button.jsx";
+
+const wishesQuery = query(collection(db, "wishes"), orderBy("createdAt", "desc"));
 
 export default function GuestWishes() {
   const [wishes, setWishes] = useState([]);
@@ -11,18 +24,19 @@ export default function GuestWishes() {
   const [submitting, setSubmitting] = useState(false);
 
   useEffect(() => {
-    fetch("/api/wishes")
-      .then((res) => res.json())
-      .then(setWishes)
-      .catch(() => setError("Couldn't load wishes right now."));
+    const unsubscribe = onSnapshot(
+      wishesQuery,
+      (snapshot) => {
+        setWishes(snapshot.docs.map((d) => ({ id: d.id, ...d.data() })));
+      },
+      () => setError("Couldn't load wishes right now.")
+    );
+    return unsubscribe;
   }, []);
 
   const deleteWish = async (id) => {
     try {
-      const res = await fetch(`/api/wishes/${id}`, { method: "DELETE" });
-      if (!res.ok) throw new Error("Failed to delete wish");
-      const updated = await res.json();
-      setWishes(updated);
+      await deleteDoc(doc(db, "wishes", id));
     } catch {
       setError("Couldn't delete that wish. Please try again.");
     }
@@ -36,14 +50,11 @@ export default function GuestWishes() {
     setSubmitting(true);
     setError("");
     try {
-      const res = await fetch("/api/wishes", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name, text }),
+      await addDoc(collection(db, "wishes"), {
+        name: name.trim(),
+        text: text.trim(),
+        createdAt: serverTimestamp(),
       });
-      if (!res.ok) throw new Error("Failed to save wish");
-      const updated = await res.json();
-      setWishes(updated);
       setName("");
       setText("");
     } catch {
