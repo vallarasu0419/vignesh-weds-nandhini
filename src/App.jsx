@@ -78,7 +78,7 @@ export default function App() {
             <OurStory story={weddingData.story} />
             <EventTimeline events={weddingData.events} />
             <Countdown targetDate={weddingData.weddingDate} />
-            <Gallery photos={weddingData.gallery} />
+            {/* <Gallery photos={weddingData.gallery} /> */}
             <VenueMap venue={venue} />
             {/* RSVPForm disabled for now */}
             <GuestWishes />

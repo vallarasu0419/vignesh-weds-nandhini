@@ -43,15 +43,14 @@ export default function Hero({ groomName, brideName, dateDisplay, venueName, ven
         </motion.p>
       </motion.div>
 
-      <motion.a
+      {/* ✅ plain <a> with CSS animation — no Framer Motion infinite loop */}
+      <a
         className="hero__scroll"
         href="#couple"
         aria-label="Scroll down to the invitation details"
-        animate={{ y: [0, 8, 0] }}
-        transition={{ repeat: Infinity, duration: 1.6 }}
       >
         ▾
-      </motion.a>
+      </a>
     </header>
   );
 }

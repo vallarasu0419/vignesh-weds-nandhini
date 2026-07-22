@@ -3,8 +3,9 @@ import { AnimatePresence, motion } from "framer-motion";
 
 export default function Envelope({ groomInitial, brideInitial, flapOpen, onOpenFlap, onOpenInvitation }) {
   return (
-    <motion.div
-      className="envelope"
+    // CSS class handles the idle bounce — no Framer Motion infinite loop
+    <div
+      className={`envelope ${!flapOpen ? "envelope--bounce" : ""}`}
       onClick={flapOpen ? undefined : onOpenFlap}
       role="button"
       tabIndex={0}
@@ -12,12 +13,8 @@ export default function Envelope({ groomInitial, brideInitial, flapOpen, onOpenF
       onKeyDown={(e) => {
         if ((e.key === "Enter" || e.key === " ") && !flapOpen) onOpenFlap();
       }}
-      initial={{ y: 0 }}
-      animate={flapOpen ? { y: 0 } : { y: [0, -10, 0] }}
-      transition={flapOpen ? { duration: 0.3 } : { repeat: Infinity, duration: 3, ease: "easeInOut" }}
-      whileHover={flapOpen ? {} : { scale: 1.03 }}
     >
-      {/* Letter that slides up out of the envelope */}
+      {/* Letter slides up — one-time animation, fine to keep in Framer Motion */}
       <motion.div
         className="envelope__letter"
         initial={{ y: 0 }}
@@ -48,7 +45,7 @@ export default function Envelope({ groomInitial, brideInitial, flapOpen, onOpenF
         </AnimatePresence>
       </motion.div>
 
-      {/* Flap */}
+      {/* Flap — one-time animation, fine to keep in Framer Motion */}
       <motion.div
         className="envelope__flap"
         style={{ transformStyle: "preserve-3d" }}
@@ -65,7 +62,7 @@ export default function Envelope({ groomInitial, brideInitial, flapOpen, onOpenF
       {/* Body sides */}
       <div className="envelope__body" aria-hidden="true" />
 
-      {/* Wax seal */}
+      {/* Wax seal — one-time exit animation, fine to keep in Framer Motion */}
       <AnimatePresence>
         {!flapOpen ? (
           <motion.div
@@ -80,7 +77,7 @@ export default function Envelope({ groomInitial, brideInitial, flapOpen, onOpenF
           </motion.div>
         ) : null}
       </AnimatePresence>
-    </motion.div>
+    </div>
   );
 }
 

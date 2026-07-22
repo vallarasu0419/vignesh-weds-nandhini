@@ -41,14 +41,8 @@ export default function CoupleInfo({ groom, bride }) {
       <SectionTitle eyebrow="The Happy Couple" title="Two Hearts, One Journey" />
       <div className="couple">
         <PersonCard person={groom} fromX={-40} />
-        <motion.div
-          className="couple__heart"
-          aria-hidden="true"
-          animate={{ scale: [1, 1.25, 1] }}
-          transition={{ repeat: Infinity, duration: 1.6 }}
-        >
-          ❤
-        </motion.div>
+        {/* ✅ plain div with CSS animation — no Framer Motion infinite loop */}
+        <div className="couple__heart" aria-hidden="true">❤</div>
         <PersonCard person={bride} fromX={40} />
       </div>
     </section>

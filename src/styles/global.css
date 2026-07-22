@@ -903,7 +903,7 @@ button {
 }
 .footer__names {
   font-family: var(--font-heading);
-  font-size: 2.2rem;
+  font-size: 1.8rem;
   color: var(--blush-pink);
 }
 .footer__note {
@@ -915,15 +915,16 @@ button {
 
 .music-toggle {
   position: fixed;
-  right: max(20px, env(safe-area-inset-right));
-  bottom: max(20px, env(safe-area-inset-bottom));
+  right: 20px;
+  bottom: 20px;
   z-index: 60;
   width: 52px;
   height: 52px;
 }
+
 .music-toggle__btn {
-  width: 100%;
-  height: 100%;
+  width: 52px;
+  height: 52px;
   border-radius: 50%;
   border: 1.5px solid var(--gold);
   background: var(--ivory);
@@ -934,7 +935,6 @@ button {
   justify-content: center;
   box-shadow: var(--shadow-soft);
 }
-
 /* ============================================================
    MOTION SAFETY
    ============================================================ */
@@ -949,4 +949,39 @@ button {
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
   }
+}
+
+/* Replaces the Framer Motion infinite y bounce on the envelope */
+.envelope--bounce {
+  animation: envelope-float 3s ease-in-out infinite;
+}
+
+/* Also replaces the whileHover scale — pure CSS */
+.envelope--bounce:hover {
+  animation: none;
+  transform: scale(1.03);
+  transition: transform 0.2s ease;
+}
+
+@keyframes envelope-float {
+  0%   { transform: translateY(0); }
+  50%  { transform: translateY(-10px); }
+  100% { transform: translateY(0); }
+}
+/* Replaces Framer Motion infinite bounce on the scroll arrow */
+.hero__scroll {
+  position: absolute;
+  bottom: 28px;
+  left: 50%;
+  transform: translateX(-50%);
+  color: var(--gold-dark);
+  font-size: 1.4rem;
+  text-decoration: none;
+  animation: hero-scroll-bounce 1.6s ease-in-out infinite;
+}
+
+@keyframes hero-scroll-bounce {
+  0%   { transform: translateX(-50%) translateY(0); }
+  50%  { transform: translateX(-50%) translateY(8px); }
+  100% { transform: translateX(-50%) translateY(0); }
 }
